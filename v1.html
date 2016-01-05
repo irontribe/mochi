@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+    <meta charset="utf-8">
+    <title>Mochi Mochi Cafe</title>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.4.4/phaser.min.js"></script>
+            <style>
+                body{margin:0}
+            </style>
+            <script type="text/javascript">
+            window.onload = function() {
+                // AUTO means choose WEGBL if possible, or html CANVAS if not.
+                // Empty string is the DOM element the game lives in. If nothing, it just
+                // gets appended onto the body.
+                var game = new Phaser.Game(800,600,Phaser.AUTO,'',{preload:onPreload, create:onCreate,update:onUpdate /* render:onRender */});
+                    
+                // Load game assets here.
+                // The asset keys such as 'bg' can be any valid Javascript string.
+                function onPreload() {
+                    game.load.image('bg', '/assets/images/store1.png');
+                    leftarrow = game.load.image('leftarrow', '/assets/images/leftarrow.png');
+                    rightarrow = game.load.image('rightarrow', '/assets/images/rightarrow.png');
+                    mochi1 = game.load.image('mochi1', '/assets/images/mochi1.png');
+                    mochi2 = game.load.image('mochi2', '/assets/images/mochi2.png');
+                    mochi3 = game.load.image('mochi3', '/assets/images/mochi3.png');
+                    mochi4 = game.load.image('mochi4', '/assets/images/mochi4.png');
+                    mochi5 = game.load.image('mochi5', '/assets/images/mochi5.png');
+                    dessert1 = game.load.image('dessert1', '/assets/images/dessert1.png');
+                }
+                
+                // THE GAME HAS BEEN CREATED
+                // Items are rendered in the order they're
+                // created here.
+                function onCreate() {
+                    // Display background
+                    game.add.sprite(0, 0, 'bg');
+                    game.add.sprite(736, 150, 'rightarrow');
+                    game.add.sprite(4, 150, 'leftarrow');
+                    // Row 1 on shelves
+                    sprite = game.add.sprite(500, 300, 'mochi1');
+                    sprite.inputEnabled = true;
+                    sprite.input.enableDrag();
+                    mochi2 = game.add.sprite(590, 300, 'mochi2');
+                    mochi2.inputEnabled = true;
+                    mochi2.input.enableDrag();
+                    // Row 2 on shelves
+                    game.add.sprite(505, 390, 'mochi3');
+                    game.add.sprite(590, 388, 'mochi4');
+                    // Row 3 on shelves
+                    game.add.sprite(505, 495, 'mochi5');
+                    game.add.sprite(590, 495, 'dessert1');
+                    // adding P2 physics to the game
+                    game.physics.startSystem(Phaser.Physics.P2JS);
+                    // setting gravity
+                    // game.physics.p2.gravity.y = 250;
+                     // adding event listener for mousedown/touch event
+                    // game.input.onDown.add(addRemove, this);     
+                }
+                
+                function onRender() {
+                    //game.debug.spriteInfo(mochi1, 0, 0);
+                }
+
+                // Called by core game loop every frame
+                function onUpdate() {
+                    //game.debug.spriteInfo(mochi1, 0, 0);
+                }
+                
+                function addRemove(pointer){
+                    // checking for bodies under the mouse
+                    var bodyClicked = game.physics.p2.hitTest(pointer.position);
+                    if(bodyClicked.length==0){
+                        // creation of physics body and its graphic asset
+                        var mochi1 = game.add.sprite(pointer.position.x, pointer.position.y, 'mochi1');
+                        game.physics.p2.enable(mochi1);
+                    }
+                    else{
+                        // destruction of physics body and its graphic asset
+                        //bodyClicked[0].parent.sprite.kill();
+                    }
+                }
+           };
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
